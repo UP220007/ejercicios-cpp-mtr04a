@@ -1,64 +1,90 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-
+double calculo(double renta, double impuessto);
+bool verifier(int lecturas,double renta);
+bool salida = false;
+double renta = 0;
+int lecturas;
+void salir();
 int main(int argc, char const *argv[])
 {
-    bool salida = false;
-    int renta = 0;
     printf("Bienvenido al sistema calculador de impuestos\n");
-    while (!salida)
+    do
     {
-        printf("ingrese el valor de su renta\n");
-        scanf("%i",&renta);
-        printf("%i",renta);
+        do {
+            printf("Ingrese el valor de su renta: ");
+            lecturas = scanf("%lf", &renta);
+        } while (!verifier(lecturas,renta));
         if (renta < 10000)
         {
-            printf("concidcional 1\n");
-            printf("El impuesto basandonos en su renta de $%i que le corresponde es del 05%\n",renta);
+            double impuesto = calculo(renta,5.0);
+            double total = impuesto + renta;
+            printf("El impuesto basandonos en su renta de $%0.02lf que le corresponde es del 05%% por lo tanto su impuesto es $%0.02lf y su total es de %0.02lf \n",renta,impuesto,total);
         }
         else if ((renta >= 10000) && (renta <= 20000))
         {
-            printf("concidcional 2\n");
-            printf("El impuesto basandonos en su renta de $%i que le corresponde es del 15%\n",renta);
+            double impuesto = calculo(renta,15.0);
+            double total = impuesto + renta;
+            printf("El impuesto basandonos en su renta de $%0.02lf que le corresponde es del 15%% por lo tanto su impuesto es $%0.02lf y su total es de %0.02lf \n",renta,impuesto,total);
         }
         else if ((renta > 20000) && (renta <= 35000))
         {
-            printf("concidcional 3\n");
-            printf("El impuesto basandonos en su renta de $%i que le corresponde es del 20%\n",renta);
+            double impuesto = calculo(renta,20.0);
+            double total = impuesto + renta;
+            printf("El impuesto basandonos en su renta de $%0.02lf que le corresponde es del 20%% por lo tanto su impuesto es $%0.02lf y su total es de %0.02lf \n",renta,impuesto,total);
         }
         else if ((renta > 35000) && (renta <= 60000))
         {
-            printf("concidcional 4\n");
-            printf("El impuesto basandonos en su renta de $%i que le corresponde es del 30%\n",renta);
+            double impuesto = calculo(renta,30.0);
+            double total = impuesto + renta;
+            printf("El impuesto basandonos en su renta de $%0.02lf que le corresponde es del 30%% por lo tanto su impuesto es $%0.02lf y su total es de %0.02lf \n",renta,impuesto,total);
         }
         else if (renta > 60000)
         {
-            printf("concidcional 5\n");
-            printf("El impuesto basandonos en su renta de $%i que le corresponde es del 45%\n",renta);
+            double impuesto = calculo(renta,45.0);
+            double total = impuesto + renta;
+            printf("El impuesto basandonos en su renta de $%0.02lf que le corresponde es del 45%% por lo tanto su impuesto es $%0.02lf y su total es de %0.02lf \n",renta,impuesto,total);
         }
-        else
-        {
-            printf("exepcion\n");
-            printf("fuera de rango ingrese un numero valido\n");
-        }
-        printf("deseas seguir calculando impuestos?\n");
-        char out = 'p';
-        do
-        {
-            scanf("%s",&out);
-            if (out == 's' || out == 'S')
-            {
-                salida = false;
-                printf("Sigamos calculando entonces\n");
-            }
-            else if (out == 'n' || out == 'N')
-            {
-                salida =  true;
-                renta = 0;
-                printf("nos vemos pasa un ecelente dia\n");
-            }
-        }while (out != 'n'&& out != 's' && out != 'N' && out != 'S');
-    }
+        printf("deseas seguir calculando impuestos? (s = si / n=no): ");
+        salir();
+    }while (!salida);
     return 0;
+}
+
+double calculo(double renta, double impuessto){
+    double imp = impuessto/100.0*renta;
+    return imp;
+}
+
+bool verifier(int lecturas, double renta){
+    if (lecturas != 1) {
+        while (getchar() != '\n');
+            printf("Error: Por favor, ingrese un número válido y no un caracter.\n");
+        return false;
+    } else if (renta < 0) {
+        printf("Error: Por favor, ingrese un número positivo válido.\n");
+        return false;
+    } else {
+        return  true;
+    }
+}
+
+void salir(){
+    char out = 'p';
+    do
+    {
+        scanf("%c",&out);
+        if (out == 's' || out == 'S')
+        {
+            salida = false;
+            printf("Sigamos calculando entonces\n");
+        }
+        else if (out == 'n' || out == 'N')
+        {
+            salida =  true;
+            renta = 0;
+            printf("nos vemos pasa un ecelente dia\n");
+        }
+    }while (out != 'n'&& out != 's' && out != 'N' && out != 'S');
 }
